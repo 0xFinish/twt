@@ -1,0 +1,1 @@
+I know I uploaded .env file, no worries I will use supabase in production.
