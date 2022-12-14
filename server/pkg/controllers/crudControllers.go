@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/fi9ish/twt/pkg/database"
@@ -68,7 +67,6 @@ func GetAllTweets() gin.HandlerFunc {
 			})
 			return
 		}
-		fmt.Println(Tweets)
 		ctx.JSON(http.StatusOK, Tweets)
 	}
 }
@@ -110,6 +108,53 @@ func GetUserTweets() gin.HandlerFunc {
 
 func GetUserInfo() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
+		middlewareUser, exists := ctx.Get("user")
+		if !exists {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "The middlware can't parse the user key/value pair",
+			})
+			return
+		}
+		User, ok := middlewareUser.(models.User)
+		if !ok {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "The middlware user does not contain models.User",
+			})
+			return
+		}
+		ctx.JSON(200, User)
+	}
+}
 
+func GetTweetById() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		ID := ctx.Query("ID")
+		if ID == "" {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "You didn't pass the Tweet ID",
+			})
+			return
+		}
+		var tweet models.Tweet
+		result := database.GetDB().Model(&tweet).First(&tweet, "ID = ?", ID)
+		if result.Error != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "Failed to find the tweet by ID",
+			})
+			return
+		}
+
+		var comments []models.Comment
+		resultCommets := database.GetDB().Model(&tweet).Association("Comments").Find(&comments)
+		if resultCommets.Error != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "Failed to find the tweet by ID",
+			})
+			return
+		}
+		ctx.JSON(200, gin.H{
+			"tweet":    tweet,
+			"comments": comments,
+		})
 	}
 }

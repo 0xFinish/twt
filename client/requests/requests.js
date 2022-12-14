@@ -59,7 +59,8 @@ export async function GetUserInfo() {
   const config = {
     headers: { Authorization: `Bearer ${user.accessToken}` },
   };
-  let response = await axios.get(link + "/getAllTweets", config);
+  let response = await axios.get(link + "/getUserInfo", config);
+  console.log(response.data)
   return response.data;
 }
 
@@ -69,5 +70,17 @@ export async function GetUserTweets() {
     headers: { Authorization: `Bearer ${user.accessToken}` },
   };
   let response = await axios.get(link + "/getUserTweets", config);
+  console.log(response.data)
   return response.data;
+}
+
+export async function getTweetById(data) {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const config = {
+      headers: { Authorization: `Bearer ${user.accessToken}` },
+    };
+    console.log(data)
+    let response = await axios.get(link + `/getTweetById?ID=${data}`, config);
+    console.log(response.data)
+    return response.data;
 }

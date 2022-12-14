@@ -4,16 +4,16 @@ import { Tweet } from "./Tweet";
 
 export function TweetList() {
   const { isLoading, isError, isSuccess, data, error } = useQuery({
-    queryKey: ["posts"],
+    queryKey: ["tweets"],
     queryFn: GetTweets,
   });
 
   return (
     <div>
       {isSuccess && (
-        <div>
+        <div className="flex flex-col gap-2 mx-auto max-w-md">
           {data.map((val, i) => {
-            return <Tweet key={i} tweet={val.tweet}></Tweet>;
+            return <Tweet key={i} tweet={val.tweet} ID={val.ID}></Tweet>;
           })}
         </div>
       )}

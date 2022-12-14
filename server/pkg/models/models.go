@@ -13,7 +13,7 @@ type User struct {
 	Token         string  `json:"token" `
 	Refresh_token string  `json:"refresh_token"`
 	User_type     string  `json:"user_type"`
-	Posts         []Tweet `json:"posts"`
+	Tweets        []Tweet `json:"posts"`
 }
 
 type Tweet struct {
@@ -27,6 +27,6 @@ type Tweet struct {
 type Comment struct {
 	gorm.Model
 	UserID  uint   `json:"user_id"`
-	PostID  Tweet  `json:"post_id"`
+	TweetID uint   `json:"post_id"`
 	Comment string `json:"comment"`
 }
