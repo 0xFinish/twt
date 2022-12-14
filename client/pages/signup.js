@@ -1,5 +1,5 @@
 import { Navbar } from "../components/Navbar";
-import { Post } from "../components/Post";
+import { Tweet } from "../components/Tweet";
 import { SignupForm } from "../components/SignupForm";
 
 export default function Home() {

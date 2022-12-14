@@ -18,6 +18,8 @@ func main() {
 
 	router.GET("/auth", middleware.RequireAuth(), controllers.AuthCheck())
 
+	router.GET("/getAllTweets", middleware.RequireAuth(), controllers.GetAllTweets())
+
 	router.POST("/createNewTweet", middleware.RequireAuth(), controllers.CreateNewTweet())
 
 	router.Run()

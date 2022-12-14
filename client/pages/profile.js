@@ -1,13 +1,12 @@
 import { Navbar } from "../components/Navbar";
-import { Post } from "../components/Post";
-import { PostList } from "../components/PostList";
+import { ProfileTab } from "../components/ProfileTab";
 
 export default function Profile() {
   return (
     <div>
       <Navbar></Navbar>
       <div className="mt-16">
-        <PostList></PostList>
+        <ProfileTab></ProfileTab>
       </div>
     </div>
   );

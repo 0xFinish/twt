@@ -44,3 +44,30 @@ export async function CreateNewTweetRequest(data) {
   let response = await axios.post(link + "/createNewTweet", data, config);
   return response.data;
 }
+
+export async function GetTweets() {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const config = {
+    headers: { Authorization: `Bearer ${user.accessToken}` },
+  };
+  let response = await axios.get(link + "/getAllTweets", config);
+  return response.data;
+}
+
+export async function GetUserInfo() {
+    const user = JSON.parse(localStorage.getItem("user"));
+  const config = {
+    headers: { Authorization: `Bearer ${user.accessToken}` },
+  };
+  let response = await axios.get(link + "/getAllTweets", config);
+  return response.data;
+}
+
+export async function GetUserTweets() {
+    const user = JSON.parse(localStorage.getItem("user"));
+  const config = {
+    headers: { Authorization: `Bearer ${user.accessToken}` },
+  };
+  let response = await axios.get(link + "/getUserTweets", config);
+  return response.data;
+}

@@ -1,13 +1,13 @@
 import { Navbar } from "../components/Navbar";
-import { Post } from "../components/Post";
-import { PostList } from "../components/PostList";
+import { Tweet } from "../components/Tweet";
+import { TweetList } from "../components/TweetList";
 
 export default function Home() {
   return (
     <div>
       <Navbar></Navbar>
       <div className="mt-16">
-        <PostList></PostList>
+        <TweetList></TweetList>
       </div>
     </div>
   );

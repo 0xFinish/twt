@@ -72,7 +72,7 @@ export function SignupForm() {
           value={formInput.password}
           placeholder="Password"
         />
-        <button className="bg-blue-200 shadow-xl rounded-xl">Login</button>
+        <button className="bg-blue-200 shadow-xl rounded-xl">Signup</button>
       </form>
     </div>
   );

@@ -1,7 +1,7 @@
 import { LoginForm } from "../components/LoginForm";
 import { Navbar } from "../components/Navbar";
-import { Post } from "../components/Post";
-import { PostList } from "../components/PostList";
+import { Tweet } from "../components/Tweet";
+import { TweetList } from "../components/TweetList";
 
 export default function Login() {
   return (
