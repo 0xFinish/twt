@@ -49,9 +49,6 @@ func RequireAuth() gin.HandlerFunc {
 			fmt.Println(token.Raw)
 			database.GetDB().Model(&user).First(&user, "token = ?", token.Raw)
 
-			fmt.Println("USERID")
-			fmt.Println(user.ID)
-
 			if user.ID == 0 {
 				ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "The user ID is not found"})
 				return

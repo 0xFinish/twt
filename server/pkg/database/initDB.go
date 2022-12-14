@@ -32,7 +32,7 @@ var (
 func init() {
 	Connect()
 	GetDB().AutoMigrate(models.User{})
-	GetDB().AutoMigrate(models.Post{})
+	GetDB().AutoMigrate(models.Tweet{})
 	GetDB().AutoMigrate(models.Comment{})
 }
 
