@@ -5,6 +5,7 @@ export function SignupForm() {
   let [formInput, setFormInput] = React.useState({
     first_name: "",
     last_name: "",
+    nick_name: "",
     email: "",
     password: "",
   });
@@ -55,6 +56,14 @@ export function SignupForm() {
           onChange={handleInputChange}
           value={formInput.last_name}
           placeholder="Last Name"
+        />
+        <input
+          className="bg-red-200 rounded-full px-4 placeholder:text-red-400 "
+          type="text"
+          name="nick_name"
+          onChange={handleInputChange}
+          value={formInput.nick_name}
+          placeholder="Nickname"
         />
         <input
           className="bg-red-200 rounded-full px-4 placeholder:text-red-400"

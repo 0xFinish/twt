@@ -28,5 +28,7 @@ func main() {
 
 	router.GET("/getTweetById", middleware.RequireAuth(), controllers.GetTweetById())
 
+	router.POST("/commentTweet", middleware.RequireAuth(), controllers.CommentTweet())
+
 	router.Run()
 }

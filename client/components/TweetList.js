@@ -11,7 +11,7 @@ export function TweetList() {
   return (
     <div>
       {isSuccess && (
-        <div className="flex flex-col gap-2 mx-auto max-w-md">
+        <div className="flex flex-col gap-2 mx-auto max-w-md my-10">
           {data.map((val, i) => {
             return <Tweet key={i} tweet={val.tweet} ID={val.ID}></Tweet>;
           })}

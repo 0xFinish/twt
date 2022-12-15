@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/fi9ish/twt/pkg/database"
 	"github.com/fi9ish/twt/pkg/models"
@@ -128,15 +129,15 @@ func GetUserInfo() gin.HandlerFunc {
 
 func GetTweetById() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		ID := ctx.Query("ID")
-		if ID == "" {
+		id := ctx.Query("id")
+		if id == "" {
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 				"error": "You didn't pass the Tweet ID",
 			})
 			return
 		}
 		var tweet models.Tweet
-		result := database.GetDB().Model(&tweet).First(&tweet, "ID = ?", ID)
+		result := database.GetDB().Model(&tweet).First(&tweet, "ID = ?", id)
 		if result.Error != nil {
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 				"error": "Failed to find the tweet by ID",
@@ -155,6 +156,60 @@ func GetTweetById() gin.HandlerFunc {
 		ctx.JSON(200, gin.H{
 			"tweet":    tweet,
 			"comments": comments,
+		})
+	}
+}
+
+func CommentTweet() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		id := ctx.Query("id")
+		if id == "" {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "You didn't pass the Tweet ID",
+			})
+			return
+		}
+		var comment models.Comment
+		err := ctx.BindJSON(&comment)
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "Could not bind received JSON",
+			})
+			return
+		}
+		middlewareUser, exists := ctx.Get("user")
+		if !exists {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "The middlware can't parse the user key/value pair",
+			})
+			return
+		}
+		User, ok := middlewareUser.(models.User)
+		if !ok {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "The middlware user does not contain models.User",
+			})
+			return
+		}
+		comment.UserID = User.ID
+		tweetId, err := strconv.Atoi(id)
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "Error converting tweet id",
+			})
+			return
+		}
+		comment.TweetID = uint(tweetId)
+		result := database.GetDB().Model(&comment).Create(&comment)
+		if result.Error != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "Error inserting comment in the DB",
+			})
+			return
+		}
+
+		ctx.JSON(http.StatusOK, gin.H{
+			"message": "Commented successfully",
 		})
 	}
 }
