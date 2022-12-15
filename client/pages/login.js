@@ -6,7 +6,7 @@ import { TweetList } from "../components/TweetList";
 export default function Login() {
   return (
     <div>
-      {/* <Navbar></Navbar> */}
+      <Navbar></Navbar>
       <div className="mt-16">
         <LoginForm></LoginForm>
       </div>

@@ -34,6 +34,7 @@ func init() {
 	GetDB().AutoMigrate(models.User{})
 	GetDB().AutoMigrate(models.Tweet{})
 	GetDB().AutoMigrate(models.Comment{})
+	GetDB().AutoMigrate(models.Like{})
 }
 
 func Connect() {

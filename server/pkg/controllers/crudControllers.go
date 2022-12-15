@@ -10,20 +10,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Hello() gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-		ctx.JSON(200, gin.H{"ping": "pong"})
-	}
-}
-
-func AuthCheck() gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-		ctx.JSON(200, gin.H{
-			"message": "I am authorized",
-		})
-	}
-}
-
 func CreateNewTweet() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var Tweet models.Tweet
@@ -272,6 +258,58 @@ func GetUserTweetsByNickname() gin.HandlerFunc {
 			return
 		}
 		ctx.JSON(200, UserTweets)
+	}
+}
 
+func LikeTweet() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		id, _ := strconv.Atoi(ctx.Query("id"))
+		if id == 0 {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "You didn't pass the Tweet ID",
+			})
+			return
+		}
+		idInt := uint(id)
+		middlewareUser, exists := ctx.Get("user")
+		if !exists {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "The middlware can't parse the user key/value pair",
+			})
+			return
+		}
+		User, ok := middlewareUser.(models.User)
+		if !ok {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "The middlware user does not contain models.User",
+			})
+			return
+		}
+		LikeConnection := models.Like{UserID: User.ID, TweetID: idInt}
+		result := database.GetDB().Model(&LikeConnection).Create(&LikeConnection)
+		if result.Error != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "Adding new like realation to database failed",
+			})
+			return
+		}
+		var LikeCount uint
+		result = database.GetDB().Model(&models.Like{}).Find(&models.Like{}, "tweet_id = ?", idInt).Count(&LikeCount)
+		if result.Error != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "Can't find Likes for the following tweet",
+			})
+			return
+		}
+		result = database.GetDB().Model(&models.Tweet{}).Where("id = ?", idInt).Update("like_amount", LikeCount)
+		if result.Error != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "Can't update like_amount in the following tweet",
+			})
+			return
+		}
+		ctx.JSON(http.StatusOK, gin.H{
+			"message": "You liked message successfully",
+		})
 	}
 }

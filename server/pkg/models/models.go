@@ -19,15 +19,21 @@ type User struct {
 
 type Tweet struct {
 	gorm.Model
-	UserID   uint      `json:"user_id"`
-	Tweet    string    `json:"tweet"`
-	Like     uint      `json:"like"`
-	Comments []Comment `json:"comments"`
+	UserID     uint      `json:"user_id"`
+	Tweet      string    `json:"tweet"`
+	Likes      []Like    `json:"like"`
+	Comments   []Comment `json:"comments"`
+	LikeAmount uint      `json:"likeAmount"`
 }
 
 type Comment struct {
 	gorm.Model
 	UserID  uint   `json:"user_id"`
-	TweetID uint   `json:"post_id"`
+	TweetID uint   `json:"tweet_id"`
 	Comment string `json:"comment"`
+}
+
+type Like struct {
+	TweetID uint `json:"tweet_id"`
+	UserID  uint `json:"user_id"`
 }

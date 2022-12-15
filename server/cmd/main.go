@@ -10,13 +10,9 @@ func main() {
 	router := gin.Default()
 	router.Use(middleware.CORSMiddleware())
 
-	router.GET("/", controllers.Hello())
-
 	router.POST("/login", controllers.Login())
 
 	router.POST("/signup", controllers.Signup())
-
-	router.GET("/auth", middleware.RequireAuth(), controllers.AuthCheck())
 
 	router.GET("/getAllTweets", middleware.RequireAuth(), controllers.GetAllTweets())
 
@@ -32,7 +28,9 @@ func main() {
 
 	router.GET("/getUserProfileByNickName", middleware.RequireAuth(), controllers.GetUserProfileByNickname())
 
-	router.GET("/GetUserTweetsByNickname", middleware.RequireAuth(), controllers.GetUserTweetsByNickname())
+	router.GET("/getUserTweetsByNickname", middleware.RequireAuth(), controllers.GetUserTweetsByNickname())
+
+	router.POST("/likeTweet", middleware.RequireAuth(), controllers.LikeTweet())
 
 	router.Run()
 }
