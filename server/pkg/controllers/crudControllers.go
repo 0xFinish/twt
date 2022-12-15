@@ -285,17 +285,42 @@ func LikeTweet() gin.HandlerFunc {
 			})
 			return
 		}
-		LikeConnection := models.Like{UserID: User.ID, TweetID: idInt}
-		result := database.GetDB().Model(&LikeConnection).Create(&LikeConnection)
+		var countTweetConnections uint
+		var LikeConnections []models.Like
+		fmt.Println(idInt, User.ID)
+		result := database.GetDB().Where("tweet_id = ? AND user_id = ?", idInt, User.ID).Find(&LikeConnections).Count(&countTweetConnections)
 		if result.Error != nil {
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-				"error": "Adding new like realation to database failed",
+				"error": "Couldn't get amount of countTweetConnections",
 			})
 			return
 		}
+		fmt.Println(LikeConnections)
+		fmt.Println("countTweetConnections")
+		fmt.Println(countTweetConnections)
+		if countTweetConnections > 0 {
+			LikeConnection := models.Like{UserID: User.ID, TweetID: idInt}
+			result = database.GetDB().Where("tweet_id = ? AND user_id = ?", idInt, User.ID).Delete(&LikeConnection)
+			if result.Error != nil {
+				ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+					"error": "Adding new like realation to database failed",
+				})
+				return
+			}
+		} else {
+			LikeConnection := models.Like{UserID: User.ID, TweetID: idInt}
+			result = database.GetDB().Model(&LikeConnection).Create(&LikeConnection)
+			if result.Error != nil {
+				ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+					"error": "Adding new like realation to database failed",
+				})
+				return
+			}
+		}
 		var LikeCount uint
 		result = database.GetDB().Model(&models.Like{}).Find(&models.Like{}, "tweet_id = ?", idInt).Count(&LikeCount)
-		if result.Error != nil {
+		if result.Error != nil && result.Error.Error() != "record not found" {
+			fmt.Println(result.Error)
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 				"error": "Can't find Likes for the following tweet",
 			})
@@ -309,7 +334,8 @@ func LikeTweet() gin.HandlerFunc {
 			return
 		}
 		ctx.JSON(http.StatusOK, gin.H{
-			"message": "You liked message successfully",
+			"message": "You liked/disliked message successfully",
 		})
+
 	}
 }

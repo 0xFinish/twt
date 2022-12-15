@@ -38,8 +38,6 @@ func RequireAuth() gin.HandlerFunc {
 		}
 
 		if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-			fmt.Println("CLAIMS")
-			fmt.Println(claims["foo"], claims["exp"])
 			if float64(time.Now().Unix()) > claims["exp"].(float64) {
 				ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "The token has expired"})
 				return
