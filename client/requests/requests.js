@@ -99,3 +99,24 @@ export async function addComment(data) {
   console.log(response.data);
   return response.data;
 }
+
+export async function GetUserInfoByNickname(data) {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const config = {
+    headers: { Authorization: `Bearer ${user.accessToken}` },
+  };
+  let response = await axios.get(link + `/getUserProfileByNickName?nick_name=${data}`, config);
+  console.log(response.data);
+  return response.data;
+}
+
+export async function GetUserTweetsByNickname(data) {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const config = {
+    headers: { Authorization: `Bearer ${user.accessToken}` },
+  };
+  let response = await axios.get(link + `/GetUserTweetsByNickname?nick_name=${data}`, config);
+  console.log(response.data);
+  return response.data;
+}
+

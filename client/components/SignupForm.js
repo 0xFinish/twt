@@ -30,6 +30,7 @@ export function SignupForm() {
     setFormInput({
       first_name: "",
       last_name: "",
+      nick_name: "",
       email: "",
       password: "",
     });

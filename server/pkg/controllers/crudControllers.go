@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -211,5 +212,66 @@ func CommentTweet() gin.HandlerFunc {
 		ctx.JSON(http.StatusOK, gin.H{
 			"message": "Commented successfully",
 		})
+	}
+}
+
+func GetUserProfileByNickname() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		nick_name := ctx.Query("nick_name")
+		if nick_name == "" {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "You didn't pass the Nickname",
+			})
+			return
+		}
+		fmt.Println(nick_name)
+
+		var User models.User
+		result := database.GetDB().Model(&User).First(&User, "nickname = ?", nick_name)
+		if result.Error != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "Could not find user in the database",
+			})
+			return
+		}
+		ctx.JSON(http.StatusOK, User)
+	}
+}
+
+func GetUserTweetsByNickname() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		nick_name := ctx.Query("nick_name")
+		if nick_name == "" {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "You didn't pass the Nickname",
+			})
+			return
+		}
+		fmt.Println(nick_name)
+		var User models.User
+		result := database.GetDB().Model(&User).First(&User, "nickname = ?", nick_name)
+		if result.Error != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "Could not find user in the database",
+			})
+			return
+		}
+		var UserTweets []models.Tweet
+		var count int
+		result = database.GetDB().Model(&models.Tweet{}).Find(&UserTweets, "user_id = ?", User.ID).Count(&count)
+		if result.Error != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "We can't find tweets for the user you are looking for",
+			})
+			return
+		}
+		if count == 0 {
+			ctx.JSON(200, gin.H{
+				"message": "0 Tweets found for the user",
+			})
+			return
+		}
+		ctx.JSON(200, UserTweets)
+
 	}
 }

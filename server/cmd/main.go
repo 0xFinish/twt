@@ -30,5 +30,9 @@ func main() {
 
 	router.POST("/commentTweet", middleware.RequireAuth(), controllers.CommentTweet())
 
+	router.GET("/getUserProfileByNickName", middleware.RequireAuth(), controllers.GetUserProfileByNickname())
+
+	router.GET("/GetUserTweetsByNickname", middleware.RequireAuth(), controllers.GetUserTweetsByNickname())
+
 	router.Run()
 }

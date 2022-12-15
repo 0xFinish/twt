@@ -50,6 +50,10 @@ func Connect() {
 	}
 }
 
+func Populate() {
+	// db.Model
+}
+
 func GetDB() *gorm.DB {
 	return db
 }

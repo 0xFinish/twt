@@ -3,7 +3,7 @@ import { GetUserTweets, GetUserInfo } from "../requests/requests";
 import { Tweet } from "./Tweet";
 
 
-export function ProfileTab() {
+export function PersonalProfileTab() {
   const userInfo = useQuery({
     queryKey: ["userInfo"],
     queryFn: GetUserInfo,
@@ -23,7 +23,7 @@ export function ProfileTab() {
         </div>
       )}
       {userTweets.isSuccess && <div className="flex flex-col gap-2">{userTweets.data.map((val, i) => {
-        return <Tweet key={i} tweet = {val.tweet}></Tweet>
+        return <Tweet key={i} tweet = {val.tweet} ID={val.ID}></Tweet>
       })}</div>}
     </div>
   );
