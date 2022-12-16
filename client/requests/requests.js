@@ -134,3 +134,13 @@ export async function LikeTweet(data) {
   let response = await axios.post(link + `/likeTweet?id=${data.id}`, {}, config);
   return response.data;
 }
+
+export async function UpdateUser(data) {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const config = {
+    headers: { Authorization: `Bearer ${user.accessToken}` },
+  };
+  let response = await axios.put(link + "/updateUser", data, config)
+  console.log(response.data)
+  return response.data
+}

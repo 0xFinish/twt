@@ -32,5 +32,7 @@ func main() {
 
 	router.POST("/likeTweet", middleware.RequireAuth(), controllers.LikeTweet())
 
+	router.PUT("/updateUser", middleware.RequireAuth(), controllers.UpdateUser())
+
 	router.Run()
 }

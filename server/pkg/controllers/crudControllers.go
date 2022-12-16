@@ -5,10 +5,18 @@ import (
 	"net/http"
 	"strconv"
 
+	"golang.org/x/crypto/bcrypt"
+
 	"github.com/fi9ish/twt/pkg/database"
 	"github.com/fi9ish/twt/pkg/models"
 	"github.com/gin-gonic/gin"
 )
+
+type UserUpdate struct {
+	Name     string `json:"name"`
+	OldValue string `json:"old_value"`
+	NewValue string `json:"new_value"`
+}
 
 func CreateNewTweet() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
@@ -337,5 +345,82 @@ func LikeTweet() gin.HandlerFunc {
 			"message": "You liked/disliked message successfully",
 		})
 
+	}
+}
+
+func UpdateUser() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		middlewareUser, exists := ctx.Get("user")
+		if !exists {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "The middlware can't parse the user key/value pair",
+			})
+			return
+		}
+		User, ok := middlewareUser.(models.User)
+		if !ok {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "The middlware user does not contain models.User",
+			})
+			return
+		}
+		var UpdateRequest UserUpdate
+		err := ctx.BindJSON(&UpdateRequest)
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "Error binding JSON user update request",
+			})
+			return
+		}
+		if (UpdateRequest.Name != "email") && (UpdateRequest.Name != "password") {
+			result := database.GetDB().Model(&User).Where("id = ?", User.ID).Update(UpdateRequest.Name, UpdateRequest.NewValue)
+			if result.Error != nil {
+				ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+					"error": "Error updating user",
+				})
+				return
+			}
+		} else {
+			if UpdateRequest.Name == "password" {
+				err := bcrypt.CompareHashAndPassword([]byte(User.Password), []byte(UpdateRequest.OldValue))
+				if err != nil {
+					ctx.JSON(http.StatusBadRequest, gin.H{
+						"error": "Invalid repeated password",
+					})
+					return
+				}
+				hash, err := bcrypt.GenerateFromPassword([]byte(UpdateRequest.NewValue), 10)
+				if err != nil {
+					ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+						"error": "Error hashing the password before inserting into the db",
+					})
+					return
+				}
+				UpdateRequest.NewValue = string(hash)
+				result := database.GetDB().Model(&User).Where("id = ?", User.ID).Update(UpdateRequest.Name, UpdateRequest.NewValue)
+				if result.Error != nil {
+					ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+						"error": "Error updating user",
+					})
+					return
+				}
+			} else {
+				fmt.Println(User.Email)
+				fmt.Println(UpdateRequest.OldValue)
+				if User.Email != UpdateRequest.OldValue {
+					ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+						"error": "Your old email doesn't math",
+					})
+					return
+				}
+				result := database.GetDB().Model(&User).Where("id = ?", User.ID).Update(UpdateRequest.Name, UpdateRequest.NewValue)
+				if result.Error != nil {
+					ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+						"error": "Error updating user",
+					})
+					return
+				}
+			}
+		}
 	}
 }

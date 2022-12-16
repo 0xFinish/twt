@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import { UpdateUser } from "../requests/requests";
 
 export function ProfileSettingsTable() {
   let [isOpen, setIsOpen] = React.useState(false);
@@ -10,7 +11,29 @@ export function ProfileSettingsTable() {
     raw_field_name: "",
   });
 
-  function handleSubmit() {}
+  function handleChange(event) {
+    event.preventDefault();
+    setFormInput((prev) => ({
+      ...prev,
+      [event.target.name]: event.target.value,
+    }));
+    console.log(formInput);
+  }
+
+  function handleSubmit() {
+    setIsOpen(false);
+    UpdateUser({
+      name: formInput.raw_field_name,
+      old_value: formInput.prevValue,
+      new_value: formInput.input,
+    });
+    setFormInput({
+      endpoint: "",
+      prevValue: "",
+      input: "",
+      raw_field_name: "",
+    });
+  }
 
   return (
     <div>
@@ -66,18 +89,54 @@ export function ProfileSettingsTable() {
                       >
                         Got it, thanks!
                       </button> */}
-                      <form onSubmit={handleSubmit}>
-                        <input
-                          type="text"
-                          placeholder={formInput.endpoint}
-                        ></input>
-                        <button
-                          className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                          onClick={() => setIsOpen(false)}
+                      {!(
+                        formInput.raw_field_name == "password" ||
+                        formInput.raw_field_name == "email"
+                      ) && (
+                        <form onSubmit={handleSubmit}>
+                          <input
+                            type="text"
+                            name="input"
+                            placeholder={formInput.endpoint}
+                            onChange={handleChange}
+                            value={formInput.input}
+                          ></input>
+                          <button
+                            type="submit"
+                            className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                          >
+                            Submit
+                          </button>
+                        </form>
+                      )}
+                      {(formInput.raw_field_name == "password" ||
+                        formInput.raw_field_name == "email") && (
+                        <form
+                          onSubmit={handleSubmit}
+                          className="flex flex-col gap-2"
                         >
-                          Got it, thanks!
-                        </button>
-                      </form>
+                          <input
+                            type="text"
+                            name="prevValue"
+                            placeholder="PrevValue"
+                            onChange={handleChange}
+                            value={formInput.prevValue}
+                          ></input>
+                          <input
+                            type="text"
+                            name="input"
+                            placeholder={formInput.endpoint}
+                            onChange={handleChange}
+                            value={formInput.input}
+                          ></input>
+                          <button
+                            type="submit"
+                            className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                          >
+                            Submit
+                          </button>
+                        </form>
+                      )}
                     </div>
                   </Dialog.Panel>
                 </Transition.Child>
