@@ -144,3 +144,13 @@ export async function UpdateUser(data) {
   console.log(response.data)
   return response.data
 }
+
+export async function UpdateTweet(data) {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const config = {
+    headers: { Authorization: `Bearer ${user.accessToken}` },
+  };
+  let response = await axios.post(link + `/updateTweet?tweet_id=${data.tweet_id}&new_tweet=${data.new_tweet}`, {}, config)
+  console.log(response.data)
+  return response.data
+}

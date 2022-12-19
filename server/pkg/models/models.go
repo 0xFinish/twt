@@ -14,7 +14,7 @@ type User struct {
 	Token         string  `json:"token" `
 	Refresh_token string  `json:"refresh_token"`
 	User_type     string  `json:"user_type"`
-	Tweets        []Tweet `json:"posts"`
+	Tweets        []Tweet `json:"tweets"`
 }
 
 type Tweet struct {

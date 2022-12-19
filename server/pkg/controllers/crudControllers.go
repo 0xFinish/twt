@@ -424,3 +424,55 @@ func UpdateUser() gin.HandlerFunc {
 		}
 	}
 }
+
+func EditTweet() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		middlewareUser, exists := ctx.Get("user")
+		if !exists {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "The middlware can't parse the user key/value pair",
+			})
+			return
+		}
+		User, ok := middlewareUser.(models.User)
+		if !ok {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "The middlware user does not contain models.User",
+			})
+			return
+		}
+		tweetID := ctx.Query("tweet_id")
+		if tweetID == "" {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "You didn't pass the Nickname",
+			})
+			return
+		}
+		newTweet := ctx.Query("new_tweet")
+		if newTweet == "" {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "You didn't pass the Nickname",
+			})
+			return
+		}
+		var userTweets []models.Tweet
+		result := database.GetDB().Model(&models.User{}).Where("id = ?", User.ID).Association("tweets").Find(&userTweets)
+		if result.Error != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "Can't update like_amount in the following tweet",
+			})
+			return
+		}
+		var tweetToUpdate models.Tweet
+		resultNew := database.GetDB().Find(&tweetToUpdate, "id = ?", tweetID).Update("tweet", newTweet)
+		if resultNew.Error != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "Can't update like_amount in the following tweet",
+			})
+			return
+		}
+		ctx.JSON(http.StatusOK, gin.H{
+			"message": "Status ok the tweet was updated successfully",
+		})
+	}
+}
