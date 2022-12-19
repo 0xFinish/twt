@@ -326,7 +326,7 @@ func LikeTweet() gin.HandlerFunc {
 			}
 		}
 		var LikeCount uint
-		result = database.GetDB().Model(&models.Like{}).Find(&models.Like{}, "tweet_id = ?", idInt).Count(&LikeCount)
+		result = database.GetDB().Model(&models.Like{}).Where("tweet_id = ?", idInt).Find(&models.Like{}).Count(&LikeCount)
 		if result.Error != nil && result.Error.Error() != "record not found" {
 			fmt.Println(result.Error)
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
