@@ -68,19 +68,7 @@ export function ProfileSettingsTable() {
                   leaveTo="opacity-0 scale-95"
                 >
                   <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                    <Dialog.Title
-                      as="h3"
-                      className="text-lg font-medium leading-6 text-gray-900"
-                    >
-                      Change {formInput.endpoint}
-                    </Dialog.Title>
-                    <div className="mt-2">
-                      <p className="text-sm text-gray-500">
-                        You want to change your {formInput.endpoint}, please
-                        enter the new value{" "}
-                      </p>
-                    </div>
-
+                    <div className="mt-2"></div>
                     <div className="mt-4">
                       {/* <button
                         type="button"
@@ -91,51 +79,98 @@ export function ProfileSettingsTable() {
                       </button> */}
                       {!(
                         formInput.raw_field_name == "password" ||
-                        formInput.raw_field_name == "email"
+                        formInput.raw_field_name == "email" ||
+                        formInput.raw_field_name == "delete"
                       ) && (
-                        <form onSubmit={handleSubmit}>
-                          <input
-                            type="text"
-                            name="input"
-                            placeholder={formInput.endpoint}
-                            onChange={handleChange}
-                            value={formInput.input}
-                          ></input>
-                          <button
-                            type="submit"
-                            className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                        <div>
+                          <Dialog.Title
+                            as="h3"
+                            className="text-lg font-medium leading-6 text-gray-900"
                           >
-                            Submit
-                          </button>
-                        </form>
+                            Change {formInput.endpoint}
+                          </Dialog.Title>
+                          <p className="text-sm text-gray-500">
+                            You want to change your {formInput.endpoint}, please
+                            enter the new value{" "}
+                          </p>
+                          <form onSubmit={handleSubmit}>
+                            <input
+                              type="text"
+                              name="input"
+                              placeholder={formInput.endpoint}
+                              onChange={handleChange}
+                              value={formInput.input}
+                            ></input>
+                            <button
+                              type="submit"
+                              className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                            >
+                              Submit
+                            </button>
+                          </form>
+                        </div>
                       )}
                       {(formInput.raw_field_name == "password" ||
                         formInput.raw_field_name == "email") && (
-                        <form
-                          onSubmit={handleSubmit}
-                          className="flex flex-col gap-2"
-                        >
-                          <input
-                            type="text"
-                            name="prevValue"
-                            placeholder="PrevValue"
-                            onChange={handleChange}
-                            value={formInput.prevValue}
-                          ></input>
-                          <input
-                            type="text"
-                            name="input"
-                            placeholder={formInput.endpoint}
-                            onChange={handleChange}
-                            value={formInput.input}
-                          ></input>
-                          <button
-                            type="submit"
-                            className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                        <div>
+                          <Dialog.Title
+                            as="h3"
+                            className="text-lg font-medium leading-6 text-gray-900"
                           >
-                            Submit
-                          </button>
-                        </form>
+                            Change {formInput.endpoint}
+                          </Dialog.Title>
+                          <p className="text-sm text-gray-500">
+                            You want to change your {formInput.endpoint}, please
+                            enter the new value{" "}
+                          </p>
+                          <form
+                            onSubmit={handleSubmit}
+                            className="flex flex-col gap-2"
+                          >
+                            <input
+                              type="text"
+                              name="prevValue"
+                              placeholder="PrevValue"
+                              onChange={handleChange}
+                              value={formInput.prevValue}
+                            ></input>
+                            <input
+                              type="text"
+                              name="input"
+                              placeholder={formInput.endpoint}
+                              onChange={handleChange}
+                              value={formInput.input}
+                            ></input>
+                            <button
+                              type="submit"
+                              className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                            >
+                              Submit
+                            </button>
+                          </form>
+                        </div>
+                      )}
+                      {formInput.raw_field_name == "delete" && (
+                        <div>
+                          <Dialog.Title
+                            as="h3"
+                            className="text-lg font-medium leading-6 text-gray-900"
+                          >
+                            Delete Profile
+                          </Dialog.Title>
+                          <p>Are u sure u want to delete your account?</p>
+                          <form
+                            onSubmit={handleSubmit}
+                            className="flex flex-col gap-2"
+                          >
+                            <button
+                              type="submit"
+                              className="inline-flex justify-center rounded-md border border-transparent bg-red-400 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                            >
+                              DELETE
+                            </button>
+                          </form>
+                        </div>
                       )}
                     </div>
                   </Dialog.Panel>
