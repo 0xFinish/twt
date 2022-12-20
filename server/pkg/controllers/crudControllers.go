@@ -372,6 +372,18 @@ func UpdateUser() gin.HandlerFunc {
 			})
 			return
 		}
+		// added GORM soft delete
+		if UpdateRequest.Name == "delete" {
+			result := database.GetDB().Delete(&User)
+			if result.Error != nil {
+				ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+					"error": "Error deleting the user",
+				})
+				return
+			}
+			ctx.JSON(200, gin.H{"message": "we are good!"})
+			return
+		}
 		if (UpdateRequest.Name != "email") && (UpdateRequest.Name != "password") {
 			result := database.GetDB().Model(&User).Where("id = ?", User.ID).Update(UpdateRequest.Name, UpdateRequest.NewValue)
 			if result.Error != nil {
