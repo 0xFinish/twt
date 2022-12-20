@@ -154,3 +154,13 @@ export async function UpdateTweet(data) {
   console.log(response.data)
   return response.data
 }
+
+export async function SubscribeRequest(data) {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const config = {
+    headers: { Authorization: `Bearer ${user.accessToken}` },
+  };
+  let response = await axios.post(link + `/subscribeRequest?user_id=${data}`, {}, config)
+  console.log(response.data)
+  return response.data
+}

@@ -6,15 +6,17 @@ import (
 
 type User struct {
 	gorm.Model
-	First_name    string  `json:"first_name"`
-	Last_name     string  `json:"last_name"`
-	Nickname      string  `json:"nick_name" gorm:"unique"`
-	Password      string  `json:"password" binding:"required"`
-	Email         string  `json:"email" gorm:"unique" binding:"required"`
-	Token         string  `json:"token" `
-	Refresh_token string  `json:"refresh_token"`
-	User_type     string  `json:"user_type"`
-	Tweets        []Tweet `json:"tweets"`
+	First_name     string  `json:"first_name"`
+	Last_name      string  `json:"last_name"`
+	Nickname       string  `json:"nick_name" gorm:"unique"`
+	Password       string  `json:"password" binding:"required"`
+	Email          string  `json:"email" gorm:"unique" binding:"required"`
+	Token          string  `json:"token" `
+	Refresh_token  string  `json:"refresh_token"`
+	User_type      string  `json:"user_type"`
+	Tweets         []Tweet `json:"tweets"`
+	Followers      []User  `json:"followers"`
+	FollowersCount uint    `json:"followers_count"`
 }
 
 type Tweet struct {
