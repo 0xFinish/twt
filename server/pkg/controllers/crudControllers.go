@@ -455,14 +455,16 @@ func EditTweet() gin.HandlerFunc {
 			})
 			return
 		}
+		fmt.Println("we are still here")
 		var userTweets []models.Tweet
-		result := database.GetDB().Model(&models.User{}).Where("id = ?", User.ID).Association("tweets").Find(&userTweets)
+		result := database.GetDB().Model(&User).Where("id = ?", User.ID).Association("Tweets").Find(&userTweets)
 		if result.Error != nil {
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 				"error": "Can't update like_amount in the following tweet",
 			})
 			return
 		}
+		fmt.Println("but we are not more here!")
 		var tweetToUpdate models.Tweet
 		resultNew := database.GetDB().Find(&tweetToUpdate, "id = ?", tweetID).Update("tweet", newTweet)
 		if resultNew.Error != nil {

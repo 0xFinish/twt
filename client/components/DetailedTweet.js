@@ -30,6 +30,13 @@ export function DetailedTweet({ id }) {
     },
   });
 
+  const updateTweet = useMutation(UpdateTweet, {
+    onSuccess: () => {
+      console.log("Invalidating...")
+      queryClient.invalidateQueries(["tweetById"])
+    }
+  })
+
   function handleChange(event) {
     event.preventDefault();
     setComment(event.target.value);
@@ -48,7 +55,8 @@ export function DetailedTweet({ id }) {
 
   function handleEditTweet(event) {
     event.preventDefault();
-    UpdateTweet({ tweet_id: id, new_tweet: editedTweet });
+    updateTweet.mutate({ tweet_id: id, new_tweet: editedTweet })
+    setEditedTweet("")
     setOpen(false);
   }
 
