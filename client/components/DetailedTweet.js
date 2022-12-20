@@ -140,7 +140,6 @@ export function DetailedTweet({ id }) {
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">Input new tweet pls</p>
                   </div>
-
                   <div className="mt-4">
                     <form onSubmit={handleEditTweet}>
                       <input
