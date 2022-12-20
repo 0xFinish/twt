@@ -13,7 +13,7 @@ export function TweetList() {
       {isSuccess && (
         <div className="flex flex-col gap-2 mx-auto max-w-md my-10">
           {data.map((val, i) => {
-            return <Tweet key={i} tweet={val.tweet} ID={val.ID}></Tweet>;
+            return <Tweet key={i} tweet={val.tweet} ID={val.ID} nickname={val.user_nickname}></Tweet>;
           })}
         </div>
       )}

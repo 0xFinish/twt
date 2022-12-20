@@ -22,7 +22,7 @@ export function PersonalProfileTab() {
           <p>How are you doing?</p>
         </div>
       )}
-      {userTweets.isSuccess && <div className="flex flex-col gap-2">{userTweets.data.map((val, i) => {
+      {userTweets.isSuccess && <div className="flex flex-col gap-2">{userTweets.len > 0 && userTweets.data.map((val, i) => {
         return <Tweet key={i} tweet = {val.tweet} ID={val.ID}></Tweet>
       })}</div>}
     </div>

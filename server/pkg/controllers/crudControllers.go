@@ -43,6 +43,7 @@ func CreateNewTweet() gin.HandlerFunc {
 			return
 		}
 		Tweet.UserID = User.ID
+		Tweet.UserNickname = User.Nickname
 		result := database.GetDB().Model(Tweet).Create(&Tweet)
 		if result.Error != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{
@@ -488,5 +489,83 @@ func EditTweet() gin.HandlerFunc {
 		ctx.JSON(http.StatusOK, gin.H{
 			"message": "Status ok the tweet was updated successfully",
 		})
+	}
+}
+
+func Subscribe() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		middlewareUser, exists := ctx.Get("user")
+		if !exists {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "The middlware can't parse the user key/value pair",
+			})
+			return
+		}
+		User, ok := middlewareUser.(models.User)
+		if !ok {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "The middlware user does not contain models.User",
+			})
+			return
+		}
+		userID := ctx.Query("user_id")
+		userIDInt, _ := strconv.Atoi(userID)
+		if userIDInt == 0 {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "You didn't pass the Nickname",
+			})
+			return
+		}
+
+		if User.ID == uint(userIDInt) {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "You can not subscribe on yourself",
+			})
+			return
+		}
+		var connection models.Follow
+		var count int
+		result := database.GetDB().Model(&models.Follow{}).Where("subscriber_id = ? AND followed_id = ?", User.ID, userIDInt).First(&connection).Count(&count)
+		if result.Error != nil && result.Error.Error() != "record not found" {
+			fmt.Println(result.Error)
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "Error when searching for following relationship",
+			})
+			return
+		}
+		if count == 0 {
+			fmt.Println(User.ID, userIDInt)
+			result = database.GetDB().Create(&models.Follow{SubscriberID: User.ID, FollowedID: uint(userIDInt)})
+			if result.Error != nil {
+				ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+					"error": "error adding the following relationship",
+				})
+				return
+			}
+		} else if count > 0 {
+			result = database.GetDB().Delete(&models.Follow{SubscriberID: User.ID, FollowedID: uint(userIDInt)})
+			if result.Error != nil {
+				ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+					"error": "Error deleting the existing connection",
+				})
+				return
+			}
+		}
+		var FollowersAmount uint
+		result = database.GetDB().Where("followed_id = ?", userIDInt).Find(&models.Follow{}).Count(&FollowersAmount)
+		if result.Error != nil {
+			fmt.Println(result.Error)
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "Error finding all followers",
+			})
+			return
+		}
+		result = database.GetDB().Model(&models.User{}).Where("id = ?", userIDInt).Update("followers_count", FollowersAmount)
+		if result.Error != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "Error updating followers_count",
+			})
+			return
+		}
 	}
 }

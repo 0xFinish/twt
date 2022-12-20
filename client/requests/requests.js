@@ -160,7 +160,8 @@ export async function SubscribeRequest(data) {
   const config = {
     headers: { Authorization: `Bearer ${user.accessToken}` },
   };
-  let response = await axios.post(link + `/subscribeRequest?user_id=${data}`, {}, config)
+  console.log(data.nick_name)
+  let response = await axios.post(link + `/subscribe?user_id=${data.data}`, {}, config)
   console.log(response.data)
   return response.data
 }

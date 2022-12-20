@@ -22,12 +22,12 @@ export function ProfileTabByNickname({ nick_name }) {
     onSuccess: () => {
       console.log("Invalidating...");
       queryClient.invalidateQueries(["userInfoByNickname"]);
-    }
+    },
   });
 
   function handleSubscribe(event) {
-    event.preventDefault()
-    mutateUserInfo({nick_name})
+    event.preventDefault();
+    mutateUserInfo.mutate({ data: userInfo.data.id });
   }
 
   return (
@@ -36,8 +36,14 @@ export function ProfileTabByNickname({ nick_name }) {
         {userInfo.isSuccess && (
           <div>
             <p>Hi{userInfo.data.first_name}</p>
+            <p>{userInfo.data.followers_count} FOLLOWERS COUNT!</p>
             <p>How are you doing?</p>
-            <button className="bg-red-200 px-2 py-1 border-2 border-blue-400 rounded-xl mx-4" onClick={handleSubscribe}>Subscribe</button>
+            <button
+              className="bg-red-200 px-2 py-1 border-2 border-blue-400 rounded-xl mx-4"
+              onClick={handleSubscribe}
+            >
+              Subscribe
+            </button>
           </div>
         )}
         {userTweets.isSuccess && (
