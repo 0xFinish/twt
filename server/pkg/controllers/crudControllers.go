@@ -553,7 +553,7 @@ func Subscribe() gin.HandlerFunc {
 		}
 		var FollowersAmount uint
 		result = database.GetDB().Where("followed_id = ?", userIDInt).Find(&models.Follow{}).Count(&FollowersAmount)
-		if result.Error != nil {
+		if result.Error != nil && result.Error.Error() != "record not found" {
 			fmt.Println(result.Error)
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 				"error": "Error finding all followers",

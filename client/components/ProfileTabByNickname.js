@@ -27,7 +27,7 @@ export function ProfileTabByNickname({ nick_name }) {
 
   function handleSubscribe(event) {
     event.preventDefault();
-    mutateUserInfo.mutate({ data: userInfo.data.id });
+    mutateUserInfo.mutate({ id: userInfo.data.ID });
   }
 
   return (

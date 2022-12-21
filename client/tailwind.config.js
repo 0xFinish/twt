@@ -5,6 +5,9 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    fontFamily: {
+      abril: ['"Abril Fatface"', 'cursive']
+    },
     extend: {},
   },
   plugins: [],
