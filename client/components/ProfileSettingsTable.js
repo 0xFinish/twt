@@ -180,103 +180,105 @@ export function ProfileSettingsTable() {
           </Dialog>
         </Transition>
       </div>
-      <h1>Profile Settings</h1>
-      <div className="flex flex-col gap-2">
-        <div className="flex gap-3 items-center ">
-          <p>Change First_name</p>
-          <button
-            className="bg-red-200 px-2 py-1 rounded-xl"
-            onClick={() => {
-              setIsOpen(true);
-              setFormInput((prev) => {
-                prev.endpoint = "First Name";
-                prev.raw_field_name = "first_name";
-                return prev;
-              });
-            }}
-          >
-            Change
-          </button>
-        </div>
-        <div className="flex gap-3 items-center">
-          <p>Change Last_name</p>
-          <button
-            className="bg-red-200 px-2 py-1 rounded-xl"
-            onClick={() => {
-              setIsOpen(true);
-              setFormInput((prev) => {
-                prev.endpoint = "Last Name";
-                prev.raw_field_name = "last_name";
-                return prev;
-              });
-            }}
-          >
-            Change
-          </button>
-        </div>
-        <div className="flex gap-3 items-center">
-          <p>Change Nickname</p>
-          <button
-            className="bg-red-200 px-2 py-1 rounded-xl"
-            onClick={() => {
-              setIsOpen(true);
-              setFormInput((prev) => {
-                prev.endpoint = "Nickname";
-                prev.raw_field_name = "Nickname";
-                return prev;
-              });
-            }}
-          >
-            Change
-          </button>
-        </div>
-        <div className="flex gap-3 items-center">
-          <p>Change Email</p>
-          <button
-            className="bg-red-200 px-2 py-1 rounded-xl"
-            onClick={() => {
-              setIsOpen(true);
-              setFormInput((prev) => {
-                prev.endpoint = "Email";
-                prev.raw_field_name = "email";
-                return prev;
-              });
-            }}
-          >
-            Change
-          </button>
-        </div>
-        <div className="flex gap-3 items-center">
-          <p>Change Password</p>
-          <button
-            className="bg-red-200 px-2 py-1 rounded-xl"
-            onClick={() => {
-              setIsOpen(true);
-              setFormInput((prev) => {
-                prev.endpoint = "Password";
-                prev.raw_field_name = "password";
-                return prev;
-              });
-            }}
-          >
-            Change
-          </button>
-        </div>
-        <div className="flex gap-3 items-center">
-          <p>Delete Profile</p>
-          <button
-            className="bg-red-800 px-2 py-1 rounded-xl text-white"
-            onClick={() => {
-              setIsOpen(true);
-              setFormInput((prev) => {
-                prev.endpoint = "Delete Profile";
-                prev.raw_field_name = "delete";
-                return prev;
-              });
-            }}
-          >
-            Delete
-          </button>
+      <div className="text-white">
+        <h1>Profile Settings</h1>
+        <div className="flex flex-col gap-2">
+          <div className="flex gap-3 items-center ">
+            <p>Change First_name</p>
+            <button
+              className="bg-red-200 px-2 py-1 rounded-xl"
+              onClick={() => {
+                setIsOpen(true);
+                setFormInput((prev) => {
+                  prev.endpoint = "First Name";
+                  prev.raw_field_name = "first_name";
+                  return prev;
+                });
+              }}
+            >
+              Change
+            </button>
+          </div>
+          <div className="flex gap-3 items-center">
+            <p>Change Last_name</p>
+            <button
+              className="bg-red-200 px-2 py-1 rounded-xl"
+              onClick={() => {
+                setIsOpen(true);
+                setFormInput((prev) => {
+                  prev.endpoint = "Last Name";
+                  prev.raw_field_name = "last_name";
+                  return prev;
+                });
+              }}
+            >
+              Change
+            </button>
+          </div>
+          <div className="flex gap-3 items-center">
+            <p>Change Nickname</p>
+            <button
+              className="bg-red-200 px-2 py-1 rounded-xl"
+              onClick={() => {
+                setIsOpen(true);
+                setFormInput((prev) => {
+                  prev.endpoint = "Nickname";
+                  prev.raw_field_name = "Nickname";
+                  return prev;
+                });
+              }}
+            >
+              Change
+            </button>
+          </div>
+          <div className="flex gap-3 items-center">
+            <p>Change Email</p>
+            <button
+              className="bg-red-200 px-2 py-1 rounded-xl"
+              onClick={() => {
+                setIsOpen(true);
+                setFormInput((prev) => {
+                  prev.endpoint = "Email";
+                  prev.raw_field_name = "email";
+                  return prev;
+                });
+              }}
+            >
+              Change
+            </button>
+          </div>
+          <div className="flex gap-3 items-center">
+            <p>Change Password</p>
+            <button
+              className="bg-red-200 px-2 py-1 rounded-xl"
+              onClick={() => {
+                setIsOpen(true);
+                setFormInput((prev) => {
+                  prev.endpoint = "Password";
+                  prev.raw_field_name = "password";
+                  return prev;
+                });
+              }}
+            >
+              Change
+            </button>
+          </div>
+          <div className="flex gap-3 items-center">
+            <p>Delete Profile</p>
+            <button
+              className="bg-red-800 px-2 py-1 rounded-xl text-white"
+              onClick={() => {
+                setIsOpen(true);
+                setFormInput((prev) => {
+                  prev.endpoint = "Delete Profile";
+                  prev.raw_field_name = "delete";
+                  return prev;
+                });
+              }}
+            >
+              Delete
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -15,7 +15,7 @@ export function PersonalProfileTab() {
   });
 
   return (
-    <div>
+    <div className="col-start-4 col-span7 text-white">
       {userInfo.isSuccess && (
         <div>
           <p>Hi{userInfo.data.first_name}</p>

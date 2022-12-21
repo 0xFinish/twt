@@ -61,9 +61,9 @@ export function DetailedTweet({ id }) {
   }
 
   return (
-    <div>
+    <div className="col-start-4 col-span-6">
       {isSuccess && (
-        <div>
+        <div className="text-white">
           {data.tweet.tweet}
           <p>Like:{data.tweet.likeAmount}</p>
           <p>Comments: </p>

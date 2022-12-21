@@ -34,7 +34,7 @@ export function ProfileTabByNickname({ nick_name }) {
     <div>
       <div>
         {userInfo.isSuccess && (
-          <div>
+          <div className="text-white">
             <p>Hi{userInfo.data.first_name}</p>
             <p>{userInfo.data.followers_count} FOLLOWERS COUNT!</p>
             <p>How are you doing?</p>
