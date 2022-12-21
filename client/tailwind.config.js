@@ -6,7 +6,7 @@ module.exports = {
   ],
   theme: {
     fontFamily: {
-      abril: ['"Abril Fatface"', 'cursive']
+      abril: ["Rockwell", "sans-serif"]
     },
     extend: {},
   },

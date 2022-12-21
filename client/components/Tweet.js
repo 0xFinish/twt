@@ -1,12 +1,13 @@
 import Link from "next/link";
 
-export function Tweet({ tweet, ID, nickname }) {
+export function Tweet({ tweet, ID, nickname, date }) {
   return (
-    
-      <div className="text-red-500 bg-green-100 border-blue-400 border-2 rounded-full px-4">
-        <Link href={`/tweet/${ID}`}>{tweet}</Link>
+    <div className="flex text-white justify-between hover:bg-slate-800 transition align-middle items-center">
+      <div className="flex flex-col">
         <Link href={`/profile/${nickname}`}>{nickname}</Link>
+        <Link href={`/tweet/${ID}`}>{tweet}</Link>
       </div>
-    
+      {date}
+    </div>
   );
 }

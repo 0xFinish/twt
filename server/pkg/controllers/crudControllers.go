@@ -569,3 +569,32 @@ func Subscribe() gin.HandlerFunc {
 		}
 	}
 }
+
+func SignOut() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		middlewareUser, exists := ctx.Get("user")
+		if !exists {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "The middlware can't parse the user key/value pair",
+			})
+			return
+		}
+		User, ok := middlewareUser.(models.User)
+		if !ok {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "The middlware user does not contain models.User",
+			})
+			return
+		}
+		result := database.GetDB().Model(&models.User{}).Where("id = ?", User.ID).Update("token", "")
+		if result.Error != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "Error deleting the Usertoken",
+			})
+			return
+		}
+		ctx.JSON(http.StatusOK, gin.H{
+			"message": "SignedOut successfully!",
+		})
+	}
+}

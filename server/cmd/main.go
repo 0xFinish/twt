@@ -38,5 +38,7 @@ func main() {
 
 	router.POST("/subscribe", middleware.RequireAuth(), controllers.Subscribe())
 
+	router.POST("/signout", middleware.RequireAuth(), controllers.SignOut())
+
 	router.Run()
 }

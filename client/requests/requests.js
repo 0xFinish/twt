@@ -1,6 +1,9 @@
 import axios from "axios";
 
 const link = "http://localhost:8080";
+const noJWTMessage = {
+  message: "U are not authorized please login",
+};
 
 export async function getPostsRequest() {
   console.log("getPosts");
@@ -26,6 +29,9 @@ export async function SignupRequest(data) {
 }
 
 export async function CheckAuthRequest(data) {
+  if (!localStorage.getItem("user")) {
+    return noJWTMessage;
+  }
   const user = JSON.parse(localStorage.getItem("user"));
   const config = {
     headers: { Authorization: `Bearer ${user.accessToken}` },
@@ -36,6 +42,9 @@ export async function CheckAuthRequest(data) {
 }
 
 export async function CreateNewTweetRequest(data) {
+  if (!localStorage.getItem("user")) {
+    return noJWTMessage;
+  }
   const user = JSON.parse(localStorage.getItem("user"));
   const config = {
     headers: { Authorization: `Bearer ${user.accessToken}` },
@@ -46,6 +55,9 @@ export async function CreateNewTweetRequest(data) {
 }
 
 export async function GetTweets() {
+  if (!localStorage.getItem("user")) {
+    return noJWTMessage;
+  }
   const user = JSON.parse(localStorage.getItem("user"));
   const config = {
     headers: { Authorization: `Bearer ${user.accessToken}` },
@@ -55,6 +67,9 @@ export async function GetTweets() {
 }
 
 export async function GetUserInfo() {
+  if (!localStorage.getItem("user")) {
+    return noJWTMessage;
+  }
   const user = JSON.parse(localStorage.getItem("user"));
   const config = {
     headers: { Authorization: `Bearer ${user.accessToken}` },
@@ -65,6 +80,9 @@ export async function GetUserInfo() {
 }
 
 export async function GetUserTweets() {
+  if (!localStorage.getItem("user")) {
+    return noJWTMessage;
+  }
   const user = JSON.parse(localStorage.getItem("user"));
   const config = {
     headers: { Authorization: `Bearer ${user.accessToken}` },
@@ -75,6 +93,9 @@ export async function GetUserTweets() {
 }
 
 export async function getTweetById(data) {
+  if (!localStorage.getItem("user")) {
+    return noJWTMessage;
+  }
   const user = JSON.parse(localStorage.getItem("user"));
   const config = {
     headers: { Authorization: `Bearer ${user.accessToken}` },
@@ -86,6 +107,9 @@ export async function getTweetById(data) {
 }
 
 export async function addComment(data) {
+  if (!localStorage.getItem("user")) {
+    return noJWTMessage;
+  }
   const user = JSON.parse(localStorage.getItem("user"));
   const config = {
     headers: { Authorization: `Bearer ${user.accessToken}` },
@@ -101,6 +125,9 @@ export async function addComment(data) {
 }
 
 export async function GetUserInfoByNickname(data) {
+  if (!localStorage.getItem("user")) {
+    return noJWTMessage;
+  }
   const user = JSON.parse(localStorage.getItem("user"));
   const config = {
     headers: { Authorization: `Bearer ${user.accessToken}` },
@@ -114,6 +141,9 @@ export async function GetUserInfoByNickname(data) {
 }
 
 export async function GetUserTweetsByNickname(data) {
+  if (!localStorage.getItem("user")) {
+    return noJWTMessage;
+  }
   const user = JSON.parse(localStorage.getItem("user"));
   const config = {
     headers: { Authorization: `Bearer ${user.accessToken}` },
@@ -127,41 +157,80 @@ export async function GetUserTweetsByNickname(data) {
 }
 
 export async function LikeTweet(data) {
+  if (!localStorage.getItem("user")) {
+    return noJWTMessage;
+  }
   const user = JSON.parse(localStorage.getItem("user"));
   const config = {
     headers: { Authorization: `Bearer ${user.accessToken}` },
   };
-  let response = await axios.post(link + `/likeTweet?id=${data.id}`, {}, config);
+  let response = await axios.post(
+    link + `/likeTweet?id=${data.id}`,
+    {},
+    config
+  );
   return response.data;
 }
 
 export async function UpdateUser(data) {
+  if (!localStorage.getItem("user")) {
+    return noJWTMessage;
+  }
   const user = JSON.parse(localStorage.getItem("user"));
   const config = {
     headers: { Authorization: `Bearer ${user.accessToken}` },
   };
-  let response = await axios.put(link + "/updateUser", data, config)
-  console.log(response.data)
-  return response.data
+  let response = await axios.put(link + "/updateUser", data, config);
+  console.log(response.data);
+  return response.data;
 }
 
 export async function UpdateTweet(data) {
+  if (!localStorage.getItem("user")) {
+    return noJWTMessage;
+  }
   const user = JSON.parse(localStorage.getItem("user"));
   const config = {
     headers: { Authorization: `Bearer ${user.accessToken}` },
   };
-  let response = await axios.post(link + `/updateTweet?tweet_id=${data.tweet_id}&new_tweet=${data.new_tweet}`, {}, config)
-  console.log(response.data)
-  return response.data
+  let response = await axios.post(
+    link + `/updateTweet?tweet_id=${data.tweet_id}&new_tweet=${data.new_tweet}`,
+    {},
+    config
+  );
+  console.log(response.data);
+  return response.data;
 }
 
 export async function SubscribeRequest(data) {
+  if (!localStorage.getItem("user")) {
+    return noJWTMessage;
+  }
   const user = JSON.parse(localStorage.getItem("user"));
   const config = {
     headers: { Authorization: `Bearer ${user.accessToken}` },
   };
-  console.log(data.id)
-  let response = await axios.post(link + `/subscribe?user_id=${data.id}`, {}, config)
-  console.log(response.data)
-  return response.data
+  console.log(data.id);
+  let response = await axios.post(
+    link + `/subscribe?user_id=${data.id}`,
+    {},
+    config
+  );
+  console.log(response.data);
+  return response.data;
+}
+
+export async function SignOut() {
+  if (!localStorage.getItem("user")) {
+    return noJWTMessage;
+  }
+  const user = JSON.parse(localStorage.getItem("user"));
+  const config = {
+    headers: { Authorization: `Bearer ${user.accessToken}` },
+  };
+  let response = await axios.post(link + `/signout`, {}, config);
+  console.log(response.data);
+  localStorage.removeItem("user");
+  sessionStorage.clear();
+  return response.data;
 }

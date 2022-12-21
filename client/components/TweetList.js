@@ -9,12 +9,12 @@ export function TweetList() {
   });
 
   return (
-    <div className="col-start-4 col-span-6"> 
+    <div className="col-start-4 col-span-6 border border-t-0"> 
       {isSuccess && (
-        <div className="flex flex-col gap-2 max-w-md my-10">
-          {data.map((val, i) => {
-            return <Tweet key={i} tweet={val.tweet} ID={val.ID} nickname={val.user_nickname}></Tweet>;
-          })}
+        <div className="flex flex-col divide-y divide-white">
+          {data.length > 0 ? data.map((val, i) => {
+            return <Tweet key={i} tweet={val.tweet} ID={val.ID} nickname={val.user_nickname} date={val.CreatedAt}></Tweet>;
+          }) : "It looks like u are not logged in"}
         </div>
       )}
     </div>
