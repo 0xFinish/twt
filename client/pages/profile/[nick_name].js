@@ -1,6 +1,7 @@
 import { ProfileTabByNickname } from "../../components/ProfileTabByNickname";
 import { useRouter } from "next/router";
 import { Navbar } from "../../components/Navbar";
+import { Sidebar } from "../../components/Sidebar";
 
 export default function ProfileView() {
   const router = useRouter();
@@ -9,9 +10,12 @@ export default function ProfileView() {
   return (
     <div>
       <Navbar></Navbar>
-      <div className="mt-16">
+      <div className="mt-12 grid grid-cols-12 ">
         {nick_name !== undefined && (
-          <ProfileTabByNickname nick_name={nick_name}></ProfileTabByNickname>
+          <div className="col-start-4 col-span-5">
+            <ProfileTabByNickname nick_name={nick_name}></ProfileTabByNickname>
+            <Sidebar></Sidebar>
+          </div>
         )}
       </div>
     </div>

@@ -36,7 +36,7 @@ export function ProfileSettingsTable() {
   }
 
   return (
-    <div>
+    <div className="col-start-4 col-span-5">
       <div>
         <Transition appear show={isOpen} as={Fragment}>
           <Dialog
@@ -67,7 +67,7 @@ export function ProfileSettingsTable() {
                   leaveFrom="opacity-100 scale-100"
                   leaveTo="opacity-0 scale-95"
                 >
-                  <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                  <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-slate-800 p-6 text-left align-middle shadow-xl transition-all">
                     <div className="mt-2"></div>
                     <div className="mt-4">
                       {/* <button
@@ -91,7 +91,7 @@ export function ProfileSettingsTable() {
                           </Dialog.Title>
                           <p className="text-sm text-gray-500">
                             You want to change your {formInput.endpoint}, please
-                            enter the new value{" "}
+                            enter the new value
                           </p>
                           <form onSubmit={handleSubmit}>
                             <input
@@ -115,7 +115,7 @@ export function ProfileSettingsTable() {
                         <div>
                           <Dialog.Title
                             as="h3"
-                            className="text-lg font-medium leading-6 text-gray-900"
+                            className="text-lg font-medium leading-6 text-white mb-2"
                           >
                             Change {formInput.endpoint}
                           </Dialog.Title>
@@ -182,11 +182,11 @@ export function ProfileSettingsTable() {
       </div>
       <div className="text-white">
         <h1>Profile Settings</h1>
-        <div className="flex flex-col gap-2">
-          <div className="flex gap-3 items-center ">
+        <div className="flex flex-col gap-3">
+          <div className="flex gap-3 items-center justify-between">
             <p>Change First_name</p>
             <button
-              className="bg-red-200 px-2 py-1 rounded-xl"
+              className="px-2 py-1 rounded-xl w-20 h-8 bg-slate-800 outline outline-2 outline-green-400 opacity-80 hover:bg-slate-600 transition"
               onClick={() => {
                 setIsOpen(true);
                 setFormInput((prev) => {
@@ -199,10 +199,10 @@ export function ProfileSettingsTable() {
               Change
             </button>
           </div>
-          <div className="flex gap-3 items-center">
+          <div className="flex gap-3 items-center justify-between">
             <p>Change Last_name</p>
             <button
-              className="bg-red-200 px-2 py-1 rounded-xl"
+              className="px-2 py-1 rounded-xl w-20 h-8 bg-slate-800 outline outline-2 outline-green-400 opacity-80 hover:bg-slate-600 transition"
               onClick={() => {
                 setIsOpen(true);
                 setFormInput((prev) => {
@@ -215,10 +215,10 @@ export function ProfileSettingsTable() {
               Change
             </button>
           </div>
-          <div className="flex gap-3 items-center">
+          <div className="flex gap-3 items-center justify-between">
             <p>Change Nickname</p>
             <button
-              className="bg-red-200 px-2 py-1 rounded-xl"
+              className="px-2 py-1 rounded-xl w-20 h-8 bg-slate-800 outline outline-2 outline-green-400 opacity-80 hover:bg-slate-600 transition"
               onClick={() => {
                 setIsOpen(true);
                 setFormInput((prev) => {
@@ -231,10 +231,10 @@ export function ProfileSettingsTable() {
               Change
             </button>
           </div>
-          <div className="flex gap-3 items-center">
+          <div className="flex gap-3 items-center justify-between">
             <p>Change Email</p>
             <button
-              className="bg-red-200 px-2 py-1 rounded-xl"
+              className="px-2 py-1 rounded-xl w-20 h-8 bg-slate-800 outline outline-2 outline-green-400 opacity-80 hover:bg-slate-600 transition"
               onClick={() => {
                 setIsOpen(true);
                 setFormInput((prev) => {
@@ -247,10 +247,10 @@ export function ProfileSettingsTable() {
               Change
             </button>
           </div>
-          <div className="flex gap-3 items-center">
+          <div className="flex gap-3 items-center justify-between">
             <p>Change Password</p>
             <button
-              className="bg-red-200 px-2 py-1 rounded-xl"
+              className="px-2 py-1 rounded-xl w-20 h-8 bg-slate-800 outline outline-2 outline-green-400 opacity-80 hover:bg-slate-600 transition"
               onClick={() => {
                 setIsOpen(true);
                 setFormInput((prev) => {
@@ -263,10 +263,10 @@ export function ProfileSettingsTable() {
               Change
             </button>
           </div>
-          <div className="flex gap-3 items-center">
+          <div className="flex gap-3 items-center justify-between">
             <p>Delete Profile</p>
             <button
-              className="bg-red-800 px-2 py-1 rounded-xl text-white"
+              className="px-2 py-1 rounded-xl w-20 h-8 bg-slate-800 outline outline-2 outline-red-400 opacity-80 hover:bg-slate-600 transition"
               onClick={() => {
                 setIsOpen(true);
                 setFormInput((prev) => {

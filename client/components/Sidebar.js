@@ -4,10 +4,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import { CreateNewTweetRequest } from "../requests/requests";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-
 export function Sidebar() {
-
-    const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   let [isOpen, setOpen] = React.useState(false);
 
@@ -15,7 +13,7 @@ export function Sidebar() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    closeModal()
+    closeModal();
     createNewTweetMutation.mutate({ tweet: tweet });
   }
 
@@ -26,13 +24,13 @@ export function Sidebar() {
   function openModal() {
     setOpen(true);
   }
-  
+
   const createNewTweetMutation = useMutation(CreateNewTweetRequest, {
     onSuccess: () => {
-        console.log("Invalidating...")
-        queryClient.invalidateQueries(["tweets"])
-    }
-  })
+      console.log("Invalidating...");
+      queryClient.invalidateQueries(["tweets"]);
+    },
+  });
 
   return (
     <div>
@@ -49,7 +47,6 @@ export function Sidebar() {
           >
             <div className="fixed inset-0 bg-black bg-opacity-25" />
           </Transition.Child>
-
           <div className="fixed inset-0 overflow-y-auto">
             <div className="flex min-h-full items-center justify-center p-4 text-center">
               <Transition.Child
@@ -61,20 +58,22 @@ export function Sidebar() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-slate-800 opacity-85 p-6 text-left align-middle shadow-xl transition-all">
                   <Dialog.Title
                     as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900"
+                    className="text-lg font-medium leading-6 text-white"
                   >
+                    Tweet smth beautiful
                   </Dialog.Title>
-                  <form onSubmit={handleSubmit}>
-                    <textarea
-                      className="bg-red-200 p-4"
+                  <form onSubmit={handleSubmit} className="mt-4 flex justify-between">
+                    <input
+                      type="text"
+                      className="bg-slate-600 rounded-full p-4 h-8 text-white"
                       onChange={(event) => setTweet(event.target.value)}
                       value={tweet}
                       name="tweet"
-                    ></textarea>
-                    <button className="bg-blue-300 rounded-full">Tweet</button>
+                    ></input>
+                    <button className="bg-blue-300 rounded-full w-24 h-8 outline outline-2 outline-violet-400">Tweet</button>
                   </form>
                 </Dialog.Panel>
               </Transition.Child>

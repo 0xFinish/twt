@@ -31,7 +31,7 @@ export function ProfileTabByNickname({ nick_name }) {
   }
 
   return (
-    <div>
+    <div className="col-start-2">
       <div>
         {userInfo.isSuccess && (
           <div className="text-white">
@@ -47,7 +47,7 @@ export function ProfileTabByNickname({ nick_name }) {
           </div>
         )}
         {userTweets.isSuccess && (
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 col-start-2">
             {userTweets.data.map((val, i) => {
               return <Tweet key={i} tweet={val.tweet} ID={val.ID}></Tweet>;
             })}
