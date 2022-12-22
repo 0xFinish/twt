@@ -61,7 +61,6 @@ export function TweetList() {
           >
             <div className="fixed inset-0 bg-black bg-opacity-25" />
           </Transition.Child>
-
           <div className="fixed inset-0 overflow-y-auto">
             <div className="flex min-h-full items-center justify-center p-4 text-center">
               <Transition.Child
@@ -85,7 +84,6 @@ export function TweetList() {
                       Please login or signup
                     </p>
                   </div>
-
                   <div className="mt-4 flex justify-between mx-4">
                     <Link href="/login">
                       <button
