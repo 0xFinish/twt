@@ -1,8 +1,14 @@
 import React from "react";
 import { LoginRequest } from "../requests/requests";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from 'next/router'
 
 export function LoginForm() {
+
+  const router = useRouter()
+
+  const queryClient = useQueryClient()
+
   let [formInput, setFormInput] = React.useState({
     email: "",
     password: "",
@@ -12,6 +18,7 @@ export function LoginForm() {
     onSuccess: () => {
       console.log("Invalidating...");
       queryClient.invalidateQueries(["posts"]);
+      router.push('/')
     },
   });
 

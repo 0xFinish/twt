@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { SignOut } from "../requests/requests";
 import React from "react";
+import { useRouter } from "next/router";
 
 export function Navbar() {
-  var user 
+
+  const router = useRouter()
 
   let [loggedIn, setLoggedIn] = React.useState(false)
   React.useEffect(() => {
@@ -36,7 +38,7 @@ export function Navbar() {
             className=" w-20 bg-slate-700 text-white outline outline-2 outline-red-400 rounded-full hover:bg-slate-600 transition"
             onClick={async () => {
               await SignOut();
-              location.reload();
+              router.push("/login")
             }}
           >
             SignOut
