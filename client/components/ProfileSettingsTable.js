@@ -82,28 +82,29 @@ export function ProfileSettingsTable() {
                         formInput.raw_field_name == "email" ||
                         formInput.raw_field_name == "delete"
                       ) && (
-                        <div>
+                        <div className="flex flex-col gap-3">
                           <Dialog.Title
                             as="h3"
-                            className="text-lg font-medium leading-6 text-gray-900"
+                            className="text-lg font-medium leading-6 text-white "
                           >
                             Change {formInput.endpoint}
                           </Dialog.Title>
-                          <p className="text-sm text-gray-500">
+                          <p className="text-sm text-gray-200">
                             You want to change your {formInput.endpoint}, please
                             enter the new value
                           </p>
-                          <form onSubmit={handleSubmit}>
+                          <form onSubmit={handleSubmit} className="flex justify-between">
                             <input
                               type="text"
                               name="input"
                               placeholder={formInput.endpoint}
                               onChange={handleChange}
                               value={formInput.input}
+                              className="h-8 rounded-full px-2"
                             ></input>
                             <button
                               type="submit"
-                              className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                              className="h-8 rounded-full border border-transparent px-6 bg-blue-100 text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                             >
                               Submit
                             </button>
@@ -112,20 +113,20 @@ export function ProfileSettingsTable() {
                       )}
                       {(formInput.raw_field_name == "password" ||
                         formInput.raw_field_name == "email") && (
-                        <div>
+                        <div className="flex flex-col gap-2">
                           <Dialog.Title
                             as="h3"
                             className="text-lg font-medium leading-6 text-white mb-2"
                           >
                             Change {formInput.endpoint}
                           </Dialog.Title>
-                          <p className="text-sm text-gray-500">
+                          <p className="text-sm text-gray-200">
                             You want to change your {formInput.endpoint}, please
                             enter the new value{" "}
                           </p>
                           <form
                             onSubmit={handleSubmit}
-                            className="flex flex-col gap-2"
+                            className="flex flex-col gap-3"
                           >
                             <input
                               type="text"
@@ -133,6 +134,7 @@ export function ProfileSettingsTable() {
                               placeholder="PrevValue"
                               onChange={handleChange}
                               value={formInput.prevValue}
+                              className="rounded-full px-2"
                             ></input>
                             <input
                               type="text"
@@ -140,10 +142,11 @@ export function ProfileSettingsTable() {
                               placeholder={formInput.endpoint}
                               onChange={handleChange}
                               value={formInput.input}
+                              className="rounded-full px-2"
                             ></input>
                             <button
                               type="submit"
-                              className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                              className="h-7 rounded-full border border-transparent bg-blue-100 px-4 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                             >
                               Submit
                             </button>
@@ -151,21 +154,21 @@ export function ProfileSettingsTable() {
                         </div>
                       )}
                       {formInput.raw_field_name == "delete" && (
-                        <div>
+                        <div className="flex flex-col gap-2">
                           <Dialog.Title
                             as="h3"
-                            className="text-lg font-medium leading-6 text-gray-900"
+                            className="text-lg font-medium leading-6 text-white"
                           >
                             Delete Profile
                           </Dialog.Title>
-                          <p>Are u sure u want to delete your account?</p>
+                          <p className="text-gray-200">Are u sure u want to delete your account?</p>
                           <form
                             onSubmit={handleSubmit}
                             className="flex flex-col gap-2"
                           >
                             <button
                               type="submit"
-                              className="inline-flex justify-center rounded-md border border-transparent bg-red-400 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                              className="inline-flex justify-center rounded-full border-2 border-cyan-500 bg-red-400 px-4 py-1 text-sm font-medium text-blue-900 hover:bg-blue-300 hover:border-2 hover:border-red-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                             >
                               DELETE
                             </button>
