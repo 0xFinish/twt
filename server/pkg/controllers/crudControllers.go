@@ -203,7 +203,6 @@ func CommentTweet() gin.HandlerFunc {
 			})
 			return
 		}
-
 		ctx.JSON(http.StatusOK, gin.H{
 			"message": "Commented successfully",
 		})
@@ -220,7 +219,6 @@ func GetUserProfileByNickname() gin.HandlerFunc {
 			return
 		}
 		fmt.Println(nick_name)
-
 		var User models.User
 		result := database.GetDB().Model(&User).First(&User, "nickname = ?", nick_name)
 		if result.Error != nil {
@@ -468,21 +466,19 @@ func EditTweet() gin.HandlerFunc {
 			})
 			return
 		}
-		fmt.Println("we are still here")
-		var userTweets []models.Tweet
-		result := database.GetDB().Model(&User).Where("id = ?", User.ID).Association("Tweets").Find(&userTweets)
-		if result.Error != nil {
-			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-				"error": "Can't update like_amount in the following tweet",
-			})
-			return
-		}
-		fmt.Println("but we are not more here!")
+		// var userTweets []models.Tweet
+		// result := database.GetDB().Model(&User).Where("id = ?", User.ID).Association("Tweets").Find(&userTweets)
+		// if result.Error != nil {
+		// 	ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+		// 		"error": "Can't update like_amount in the following tweet",
+		// 	})
+		// 	return
+		// }
 		var tweetToUpdate models.Tweet
-		resultNew := database.GetDB().Find(&tweetToUpdate, "id = ?", tweetID).Update("tweet", newTweet)
+		resultNew := database.GetDB().Find(&tweetToUpdate, "id = ? AND user_id = ?", tweetID, User.ID).Update("tweet", newTweet)
 		if resultNew.Error != nil {
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-				"error": "Can't update like_amount in the following tweet",
+				"error": "Can't update the tweet, you may not be the author",
 			})
 			return
 		}
