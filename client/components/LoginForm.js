@@ -42,20 +42,22 @@ export function LoginForm() {
     <div className="">
       <form className="flex flex-col gap-2 max-w-md mx-auto" onSubmit={handleSubmit}>
         <input 
-        className="bg-red-200 rounded-full"
+        className="bg-gray-600 rounded-full px-4 h-8"
           type="email"
           name="email"
+          placeholder="Email"
           onChange={handleInputChange}
           value={formInput.email}
         />
         <input
-        className="bg-red-200 rounded-full"
+        className="bg-gray-600 rounded-full px-4 h-8"
           type="password"
           name="password"
+          placeholder="Password"
           onChange={handleInputChange}
           value={formInput.password}
         />
-        <button className="bg-blue-200 shadow-xl rounded-xl">Login</button>
+        <button className="bg-blue-300 shadow-xl rounded-xl h-10 w-36 self-center m-2 font-bold text-lg border-4 border-white">Login</button>
       </form>
     </div>
   );
